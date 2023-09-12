@@ -32,11 +32,13 @@ function getTopMovies(page) {
               const title = $(".title", this).text();
               const star = $(".info .bd .rating_num", this).text();
               const pic = $(".pic img", this).attr("src");
+              const inq = $(".info .bd .quote .inq", this).text();
               //数据以对象的形式存放在数组中
               allFiles.push({
-                title: title,
-                star: star,
-                pic: pic,
+                title,
+                star,
+                pic,
+                inq,
               });
             });
 
