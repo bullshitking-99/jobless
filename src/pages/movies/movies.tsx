@@ -1,5 +1,6 @@
 import movies from "../../../app/crawler/assets/data.json";
 import "./index.scss";
+import { motion } from "framer-motion";
 
 function App() {
   // 取初始数据
@@ -10,7 +11,7 @@ function App() {
       {data.map((m) => (
         <div key={m.title} className="movie">
           <div className="img">
-            <img src={m.pic} alt={m.title} />{" "}
+            <motion.img drag dragSnapToOrigin src={m.pic} alt={m.title} />
           </div>
           <div className="info">
             <div className="title">{m.title} </div>
