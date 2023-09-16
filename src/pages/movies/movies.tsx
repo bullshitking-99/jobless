@@ -28,8 +28,8 @@ function App() {
               drag
               dragSnapToOrigin
               whileHover={{
-                y: -10,
-                scale: 1.02,
+                y: -7,
+                // scale: 1.02,
                 boxShadow: "1px 1px 50px #5ababa63",
                 transition: {
                   duration: 0.3,
