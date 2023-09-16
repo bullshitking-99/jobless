@@ -24,14 +24,35 @@ function App() {
       {data.map((m, i) => (
         <motion.div key={m.title} className="movie">
           <div className="img">
-            <motion.img drag dragSnapToOrigin src={m.pic} alt={m.title} />
+            <motion.img
+              drag
+              dragSnapToOrigin
+              whileHover={{
+                y: -10,
+                scale: 1.02,
+                boxShadow: "1px 1px 50px #5ababa63",
+                transition: {
+                  duration: 0.3,
+                },
+              }}
+              whileTap={{ scale: 0.9, boxShadow: "none" }}
+              src={m.pic}
+              alt={m.title}
+            />
           </div>
           <motion.div
             className="info"
             custom={i}
             variants={info}
             initial="hidden"
-            animate="visible"
+            // animate="visible"
+            whileInView={{
+              opacity: 1,
+              x: 0,
+              transition: {
+                duration: 0.3,
+              },
+            }}
           >
             <div className="title">{m.title} </div>
             <div className="star">{m.star} </div>
