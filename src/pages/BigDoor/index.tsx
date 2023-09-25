@@ -31,7 +31,7 @@ function App() {
         animate={{
           x: "-10%",
           transition: {
-            delay: 2,
+            // delay: 2,
             duration: 1,
           },
         }}
