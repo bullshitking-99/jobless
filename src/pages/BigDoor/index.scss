@@ -1,29 +1,59 @@
+// 卡片
+$cardNum: 10;
+$cardWidth: 25vw;
+
+// 主题
+$bg-dark-color: #121212;
+$font-dark-color: white;
+
 .container {
-  display: flex;
-  justify-content: center;
   overflow: hidden;
   position: relative;
-  .top {
+  .circle {
     width: 300vw;
     height: 300vw;
-    background-color: #121212;
+    background-color: $bg-dark-color;
     border-radius: 100%;
     position: absolute;
-    top: -270vw;
+
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 10;
+  }
+  .top {
+    top: -270vw;
+
+    .title {
+      width: 80vw;
+      height: 20vw;
+      // background-color: white;
+      position: absolute;
+      bottom: 6vw;
+      left: 50%;
+      transform: translateX(-50%);
+
+      h1 {
+        font-size: 4.5vw;
+        font-weight: 500;
+        color: $font-dark-color;
+        font-family: "Times New Roman", Times, serif;
+        text-align: center;
+      }
+    }
   }
   .middle {
     margin-top: 20vw;
     margin-bottom: 20vw;
     height: 43vw;
-    width: 200vw;
+    width: calc($cardNum * ($cardWidth + 2vw));
     // background-color: red;
     z-index: 0;
+    display: flex;
 
     .movie {
       display: inline-block;
       height: 100%;
-      width: 25vw;
+      width: $cardWidth;
       margin-right: 2vw;
       overflow: hidden;
 
@@ -34,12 +64,6 @@
     }
   }
   .bottom {
-    width: 300vw;
-    height: 300vw;
-    background-color: #121212;
-    border-radius: 100%;
-    position: absolute;
     bottom: -270vw;
-    z-index: 10;
   }
 }

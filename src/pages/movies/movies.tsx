@@ -45,7 +45,7 @@ function App() {
             custom={i}
             variants={info}
             initial="hidden"
-            // animate="visible"
+            animate="visible"
             whileInView={{
               opacity: 1,
               x: 0,
