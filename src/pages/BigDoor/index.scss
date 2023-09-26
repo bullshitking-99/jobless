@@ -4,18 +4,18 @@
   overflow: hidden;
   position: relative;
   .top {
-    width: 260vw;
-    height: 260vw;
+    width: 300vw;
+    height: 300vw;
     background-color: #121212;
     border-radius: 100%;
     position: absolute;
-    top: -230vw;
+    top: -270vw;
     z-index: 10;
   }
   .middle {
     margin-top: 20vw;
     margin-bottom: 20vw;
-    height: 38vw;
+    height: 43vw;
     width: 200vw;
     // background-color: red;
     z-index: 0;
@@ -34,12 +34,12 @@
     }
   }
   .bottom {
-    width: 260vw;
-    height: 260vw;
+    width: 300vw;
+    height: 300vw;
     background-color: #121212;
     border-radius: 100%;
     position: absolute;
-    bottom: -230vw;
+    bottom: -270vw;
     z-index: 10;
   }
 }
