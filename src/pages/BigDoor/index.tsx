@@ -12,7 +12,7 @@ function App() {
       <div className="top circle">
         <div className="title">
           <TitleWithFadeIn content={"一场场电影"} index={0} />
-          <TitleWithFadeIn content={"犹如人生与梦境的延续"} index={1} />
+          <TitleWithFadeIn content={"犹如梦境在人生的延续"} index={1} />
         </div>
       </div>
       {/* 轮播list */}
