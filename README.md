@@ -8,4 +8,4 @@
 
 A random tree which can grow itself, (using the requestAnimationFrame api)
 
-> _learned with https://100.antfu.me/013_
+> _learned with <https://100.antfu.me/013>_

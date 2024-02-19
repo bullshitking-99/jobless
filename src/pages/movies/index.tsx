@@ -6,8 +6,7 @@ function App() {
   // 取初始数据
   const data = movies[0];
 
-  // 动画状态切换
-
+  // 动画状态存储与复用
   const info = {
     visible: (i: number) => ({
       opacity: 1,
