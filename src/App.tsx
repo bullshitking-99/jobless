@@ -1,10 +1,10 @@
-import RequestController from "./components/RequestController";
+import Debounce from "./components/useDebounce";
 
 function App() {
   return (
     <>
       <h1>Coming Test</h1>
-      <RequestController></RequestController>
+      <Debounce></Debounce>
     </>
   );
 }
