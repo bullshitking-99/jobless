@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // 虽然Chrome浏览器会自动限制请求的最大并发数（一般是6-10）
 // 但是觉得挺好玩的还是动手实现一个
 // refer post ：https://juejin.cn/post/7356534347509645375

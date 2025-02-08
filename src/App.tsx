@@ -1,10 +1,10 @@
-import SimpleReact from "./components/SimpleReact";
+import Debounce from "./components/useDebounce";
 
 function App() {
   return (
     <>
       <h1>Coming Test</h1>
-      <SimpleReact></SimpleReact>
+      <Debounce></Debounce>
     </>
   );
 }
