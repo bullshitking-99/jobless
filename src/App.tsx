@@ -1,10 +1,10 @@
-import Debounce from "./components/useDebounce";
+import LexicalEnvironment from "./components/LexicalEnvironment";
 
 function App() {
   return (
     <>
       <h1>Coming Test</h1>
-      <Debounce></Debounce>
+      <LexicalEnvironment></LexicalEnvironment>
     </>
   );
 }

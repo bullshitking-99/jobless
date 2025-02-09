@@ -51,6 +51,7 @@ const Debounce = () => {
     console.log("searh for " + text);
   };
 
+  // 仍不知道为什么初始时会搜索两次，lazyEffect怎么没起作用
   useDebounceEffect(
     () => {
       handleSearch(text);
