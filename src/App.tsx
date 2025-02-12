@@ -1,10 +1,10 @@
-import LexicalEnvironment from "./components/LexicalEnvironment";
+import DelayOutput from "./pages/BaiduCodeTest";
 
 function App() {
   return (
     <>
       <h1>Coming Test</h1>
-      <LexicalEnvironment></LexicalEnvironment>
+      <DelayOutput></DelayOutput>
     </>
   );
 }
