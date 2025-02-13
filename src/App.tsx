@@ -1,10 +1,10 @@
-import DelayOutput from "./pages/BaiduCodeTest";
+import MaxRetry from "./components/RequestController/MaxRetry";
 
 function App() {
   return (
     <>
       <h1>Coming Test</h1>
-      <DelayOutput></DelayOutput>
+      <MaxRetry></MaxRetry>
     </>
   );
 }

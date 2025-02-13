@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 
-const RequestController = () => {
+const MaxConcurrencyCount = () => {
   const [finishedRequest, setFinishedRequest] = useState<string[]>([]);
 
   // request array
@@ -67,4 +67,4 @@ const RequestController = () => {
   );
 };
 
-export default RequestController;
+export default MaxConcurrencyCount;
