@@ -1,10 +1,10 @@
-import MaxRetry from "./components/RequestController/MaxRetry";
+import DateFormat from "./pages/CodeTest/DateFormat";
 
 function App() {
   return (
     <>
       <h1>Coming Test</h1>
-      <MaxRetry></MaxRetry>
+      <DateFormat></DateFormat>
     </>
   );
 }
