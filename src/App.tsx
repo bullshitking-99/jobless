@@ -1,10 +1,10 @@
-import DateFormat from "./pages/CodeTest/DateFormat";
+import ObjectMode from "./pages/CodeTest/Observer";
 
 function App() {
   return (
     <>
       <h1>Coming Test</h1>
-      <DateFormat></DateFormat>
+      <ObjectMode></ObjectMode>
     </>
   );
 }
