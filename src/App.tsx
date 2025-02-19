@@ -1,10 +1,10 @@
-import ObjectMode from "./pages/CodeTest/Observer";
+import ArrayToTree from "./pages/CodeTest/ArrayToTree";
 
 function App() {
   return (
     <>
       <h1>Coming Test</h1>
-      <ObjectMode></ObjectMode>
+      <ArrayToTree></ArrayToTree>
     </>
   );
 }
