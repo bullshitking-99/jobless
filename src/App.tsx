@@ -1,10 +1,10 @@
-import ArrayToTree from "./pages/CodeTest/ArrayToTree";
+import GreatCustomHooks from "./pages/CustomHooks";
 
 function App() {
   return (
     <>
       <h1>Coming Test</h1>
-      <ArrayToTree></ArrayToTree>
+      <GreatCustomHooks></GreatCustomHooks>
     </>
   );
 }
