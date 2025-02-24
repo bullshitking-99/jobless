@@ -1,53 +1,76 @@
-import { Button, Input } from "antd";
-import { useState } from "react";
+import { Button, Input, message } from "antd";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { todoStore } from "./todoStore";
 
-interface ITodo {
-  id: string;
-  val: string;
-}
-
-const SyncExternalStoreTodo = () => {
-  const [todos, setTodos] = useState<ITodo[]>([]);
+const AddTodo = () => {
   const [val, setVal] = useState<string>("");
 
   const addTodo = () => {
-    const todo = {
-      id: Math.random().toFixed(2),
-      val,
-    };
-
-    setTodos([...todos, todo]);
+    if (!val) return;
+    todoStore.addTodo(val);
     setVal("");
   };
 
   return (
+    <div>
+      <Input
+        value={val}
+        onChange={({ target }) => {
+          setVal(target.value);
+        }}
+        style={{ width: "200px", marginRight: "16px" }}
+        onPressEnter={addTodo}
+      ></Input>
+      <Button style={{ marginRight: "8px" }} onClick={addTodo} type="primary">
+        Add
+      </Button>
+    </div>
+  );
+};
+
+const TodoList = () => {
+  const todoList = useSyncExternalStore(
+    todoStore.subscribe,
+    todoStore.getSnapShot
+  );
+
+  return (
+    <ul>
+      {todoList.map((t) => (
+        <li key={t.id}>{t.val}</li>
+      ))}
+    </ul>
+  );
+};
+
+const TodoMessage = () => {
+  const todoList = useSyncExternalStore(
+    todoStore.subscribe,
+    todoStore.getSnapShot
+  );
+
+  const currentTodoList = useRef(todoList);
+
+  useEffect(() => {
+    if (todoList.length === 0) return;
+
+    const [newTodo] = todoList.filter(
+      (t) => !currentTodoList.current.map((t) => t.id).includes(t.id)
+    );
+    currentTodoList.current = todoList;
+
+    message.success("you add a new todo : " + newTodo.val);
+  }, [todoList]);
+
+  return <></>;
+};
+
+const SyncExternalStoreTodo = () => {
+  return (
     <>
-      <div>
-        <Input
-          value={val}
-          onChange={({ target }) => {
-            setVal(target.value);
-          }}
-          style={{ width: "200px", marginRight: "16px" }}
-          onPressEnter={addTodo}
-        ></Input>
-        <Button style={{ marginRight: "8px" }} onClick={addTodo} type="primary">
-          Add
-        </Button>
-        <Button
-          onClick={() => {
-            setTodos([]);
-          }}
-          type="default"
-        >
-          Clear
-        </Button>
-      </div>
-      <ul>
-        {todos.map((t) => (
-          <li key={t.id}>{t.val}</li>
-        ))}
-      </ul>
+      <AddTodo></AddTodo>
+      <TodoList></TodoList>
+      <TodoMessage></TodoMessage>
     </>
   );
 };
