@@ -1,6 +1,7 @@
 import { Button, Input, message } from "antd";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { todoStore } from "./todoStore";
+import { onLineStore } from "./onLineStore";
 
 const AddTodo = () => {
   const [val, setVal] = useState<string>("");
@@ -65,9 +66,23 @@ const TodoMessage = () => {
   return <></>;
 };
 
+// 订阅 react 之外的数据源，是这个hook设计的初衷
+// 提供了一个快捷的根据订阅重渲染方式
+const OnLineStatus = () => {
+  const { subscribe, getSnapshot } = onLineStore;
+  const isOnline = useSyncExternalStore(subscribe, getSnapshot);
+
+  useEffect(() => {
+    isOnline ? message.success("onLine now !") : message.error("offLine now ~");
+  }, [isOnline]);
+
+  return <h2>{isOnline ? "✅ Online" : "❌ Disconnected"}</h2>;
+};
+
 const SyncExternalStoreTodo = () => {
   return (
     <>
+      <OnLineStatus></OnLineStatus>
       <AddTodo></AddTodo>
       <TodoList></TodoList>
       <TodoMessage></TodoMessage>
