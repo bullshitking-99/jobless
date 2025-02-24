@@ -1,10 +1,10 @@
-import GreatCustomHooks from "./pages/CustomHooks";
+import SyncExternalStoreTodo from "./components/SimpleZustand/SyncExternalStoreTodo";
 
 function App() {
   return (
     <>
       <h1>Coming Test</h1>
-      <GreatCustomHooks></GreatCustomHooks>
+      <SyncExternalStoreTodo></SyncExternalStoreTodo>
     </>
   );
 }
