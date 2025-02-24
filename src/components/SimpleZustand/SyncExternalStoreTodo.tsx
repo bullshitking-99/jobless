@@ -1,7 +1,7 @@
 import { Button, Input, message } from "antd";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { todoStore } from "./todoStore";
-import { useOnlineStatus } from "./useOnLineStatus";
+import { useOnlineStatus } from "../../pages/CustomHooks/useOnLineStatus";
 
 const AddTodo = () => {
   const [val, setVal] = useState<string>("");
