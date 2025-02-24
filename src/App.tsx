@@ -1,10 +1,10 @@
-import SyncExternalStoreTodo from "./components/SimpleZustand/SyncExternalStoreTodo";
+import { Zoo } from "./components/SimpleZustand";
 
 function App() {
   return (
     <>
       <h1>Coming Test</h1>
-      <SyncExternalStoreTodo></SyncExternalStoreTodo>
+      <Zoo></Zoo>
     </>
   );
 }
