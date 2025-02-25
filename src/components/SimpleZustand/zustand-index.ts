@@ -1,11 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useSyncExternalStore } from "react";
-import {
-  Creator,
-  creatorState,
-  GetState,
-  ReadonlyStoreApi,
-  UseBoundStore,
-} from "./type";
+import { Creator, creatorState, GetState, ReadonlyStoreApi } from "./type";
+import { createStore } from "./zustand-vanilla";
 
 //实现create函数，接受一个函数作为参数，函数的作用是创建仓库对象
 export const create: Creator = <T>(createStateFn: creatorState<T>) =>
@@ -19,7 +15,7 @@ const createStateImpl = <T>(createStateFn: creatorState<T>) => {
   const useBoundStore: any = (selector?: any) => useStore(api, selector);
 
   // ????
-  //   Object.assign(useBoundStore, api);
+  // Object.assign(useBoundStore, api);
 
   return useBoundStore;
 };

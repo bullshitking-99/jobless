@@ -1,6 +1,8 @@
-import { create } from "zustand";
-import { memo, useState } from "react";
+// import { create } from "zustand";
+
+import { memo } from "react";
 import { Button, message } from "antd";
+import { create } from "./zustand-index";
 
 interface BearState {
   bears: number;

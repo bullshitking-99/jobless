@@ -1,9 +1,9 @@
-type SetStateInternal<T> = (
+export type SetStateInternal<T> = (
   partial: T | Partial<T> | ((state: T) => T | Partial<T>),
   replace?: boolean
 ) => void;
 
-type Listener<T> = (state: T, prevState: T) => void;
+export type Listener<T> = (state: T, prevState: T) => void;
 
 export interface StoreApi<T> {
   setState: SetStateInternal<T>;
