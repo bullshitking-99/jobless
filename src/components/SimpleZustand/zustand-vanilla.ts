@@ -19,8 +19,6 @@ export const createStoreImpl: creatorStoreImpl = (createStateFn) => {
         ? (partial as (state: TState) => TState)(state)
         : partial;
 
-    console.log("state", state);
-
     // 判断是否更新
     if (!Object.is(state, newState)) {
       const previousState = state;
@@ -28,8 +26,6 @@ export const createStoreImpl: creatorStoreImpl = (createStateFn) => {
         replace ?? (typeof newState !== "object" || newState === null)
           ? (newState as TState)
           : Object.assign({}, state, newState);
-
-      console.log("newState", state);
 
       // 发布订阅
       listeners.forEach((l) => l(state, previousState));

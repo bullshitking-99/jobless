@@ -14,8 +14,8 @@ const createStateImpl = <T>(createStateFn: creatorState<T>) => {
   // 返回一个函数，供组件使用，获取和订阅相关状态
   const useBoundStore: any = (selector?: any) => useStore(api, selector);
 
-  // ????
-  // Object.assign(useBoundStore, api);
+  // 用来支持一些奇怪的用法，比如直接 useStore.getState() , 也会返回 state，但是这样不会为组件订阅状态
+  Object.assign(useBoundStore, api);
 
   return useBoundStore;
 };

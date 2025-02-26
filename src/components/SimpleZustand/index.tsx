@@ -27,7 +27,8 @@ const useZooStore = create<BearState>((set) => ({
 }));
 
 const Bears = memo(() => {
-  const bears = useZooStore((state) => state.bears);
+  const bears = useZooStore((state) => state.bears); // 会订阅状态
+  // const { bears } = useZooStore.getState(); // 不会订阅状态
   message.warning("Bears render");
 
   return (
