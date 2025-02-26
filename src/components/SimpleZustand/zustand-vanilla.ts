@@ -19,7 +19,7 @@ export const createStoreImpl: creatorStoreImpl = (createStateFn) => {
         ? (partial as (state: TState) => TState)(state)
         : partial;
 
-    // 判断是否更新
+    // 判断是否更新 拦截 setState(s => s) 的情况
     if (!Object.is(state, newState)) {
       const previousState = state;
       state =
@@ -28,6 +28,8 @@ export const createStoreImpl: creatorStoreImpl = (createStateFn) => {
           : Object.assign({}, state, newState);
 
       // 发布订阅
+      // 虽然 state 对象地址更新了，但是组件订阅的值如果没变化不会触发重新渲染
+      // useSyncExternalStore 中有第二道拦截
       listeners.forEach((l) => l(state, previousState));
     }
   };
