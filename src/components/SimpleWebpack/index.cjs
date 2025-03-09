@@ -95,6 +95,7 @@ function step3(entry) {
                     return require(graph[module].dependencies[relativePath]);
                 }
                 var exports = {};
+                // localRequire 会作为内部依赖代码的 require 调用，获取向下特定的上下文
                 (function(require, exports, code) {
                     eval(code);
                 })(localRequire, exports, graph[module].code);
