@@ -12,6 +12,8 @@ interface VirtualTableProps {
   dataSource: any[];
   rowHeight?: number;
   visibleRows?: number;
+  width?: number;
+  height?: number;
 }
 
 export default function VirtualTable({
@@ -19,9 +21,10 @@ export default function VirtualTable({
   dataSource,
   rowHeight = 40,
   visibleRows = 20,
+  width,
+  height,
 }: VirtualTableProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [scrollLeft, setScrollLeft] = useState(0);
   const [scrollTop, setScrollTop] = useState(0);
   const [totalWidth, setTotalWidth] = useState(0);
   const [totalHeight, setTotalHeight] = useState(0);
@@ -31,41 +34,56 @@ export default function VirtualTable({
     const canvas = canvasRef.current!;
     const ctx = canvas.getContext("2d")!;
 
-    const width = columns.reduce((sum, col) => sum + col.width, 0);
-    const height = dataSource.length * rowHeight;
+    const _width = columns.reduce((sum, col) => sum + col.width, 0);
+    const _height = dataSource.length * rowHeight;
 
-    canvas.width = width;
-    canvas.height = height;
-    setTotalWidth(width);
-    setTotalHeight(height);
+    canvas.width = width || _width;
+    canvas.height = height || _height;
+    setTotalWidth(_width);
+    setTotalHeight(_height);
 
     // 初始绘制
     drawTable(ctx);
+
+    // 清空Canvas
+    return () => {
+      canvas.width = width || _width;
+      canvas.height = height || _height;
+    };
   }, [columns, dataSource, rowHeight]);
+
+  // 绘制表头
+  const drawHeader = useCallback(
+    (ctx: CanvasRenderingContext2D) => {
+      let x = 0;
+      columns.forEach((col) => {
+        // 绘制表头背景
+        ctx.fillStyle = "#f5f5f5";
+        ctx.fillRect(x, 0, col.width, rowHeight);
+        ctx.strokeRect(x, 0, col.width, rowHeight);
+
+        // 绘制表头文字
+        ctx.fillStyle = "#333";
+        ctx.font = "14px Arial";
+        ctx.fillText(col.title, x + 10, rowHeight / 2 + 5);
+
+        x += col.width;
+      });
+    },
+    [columns, rowHeight]
+  );
 
   // 绘制表格主体
   const drawTable = useCallback(
     (ctx: CanvasRenderingContext2D) => {
-      ctx.clearRect(0, 0, totalWidth, totalHeight);
-
-      // 绘制列头
-      ctx.fillStyle = "#f5f5f5";
-      let x = 0;
-      columns.forEach((col) => {
-        ctx.fillRect(x, 0, col.width, rowHeight);
-        ctx.strokeRect(x, 0, col.width, rowHeight);
-        ctx.fillStyle = "#333";
-        ctx.font = "14px Arial";
-        ctx.fillText(col.title, x + 10, rowHeight / 2 + 5);
-        x += col.width;
-      });
+      ctx.clearRect(0, rowHeight, totalWidth, totalHeight);
 
       // 绘制可见行
       const startRow = Math.floor(scrollTop / rowHeight);
       const endRow = startRow + visibleRows;
 
       dataSource.slice(startRow, endRow).forEach((row, index) => {
-        const y = index * rowHeight - (scrollTop % rowHeight);
+        const y = (index + 1) * rowHeight - (scrollTop % rowHeight);
 
         let cellX = 0;
         columns.forEach((col) => {
@@ -76,10 +94,14 @@ export default function VirtualTable({
           ctx.fillStyle = "#666";
           ctx.strokeRect(cellX, y, col.width, rowHeight);
           // 文字内容
+          ctx.font = "14px Arial";
           ctx.fillText(row[col.dataIndex], cellX + 10, y + rowHeight / 2 + 5);
           cellX += col.width;
         });
       });
+
+      // 重新绘制表头以确保其始终显示在最上层
+      drawHeader(ctx);
     },
     [
       scrollTop,
@@ -92,27 +114,30 @@ export default function VirtualTable({
     ]
   );
 
-  // 处理滚动事件
-  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const { scrollLeft, scrollTop } = e.currentTarget;
-    setScrollLeft(scrollLeft);
-    setScrollTop(scrollTop);
-    requestAnimationFrame(() => {
-      drawTable(canvasRef.current!.getContext("2d")!);
-    });
-  };
-
-  return (
-    <div className="virtual-table-container" onScroll={handleScroll}>
-      <div
-        className="canvas-wrapper"
-        style={{
-          width: totalWidth,
-          height: totalHeight,
-        }}
-      >
-        <canvas ref={canvasRef} />
-      </div>
-    </div>
+  // 处理鼠标滚轮事件
+  const handleWheel = useCallback(
+    (e: WheelEvent) => {
+      e.preventDefault();
+      const newScrollTop = Math.max(
+        0,
+        Math.min(scrollTop + e.deltaY, totalHeight - rowHeight * visibleRows)
+      );
+      setScrollTop(newScrollTop);
+      requestAnimationFrame(() => {
+        drawTable(canvasRef.current!.getContext("2d")!);
+      });
+    },
+    [scrollTop, totalHeight, rowHeight, visibleRows, drawTable]
   );
+
+  // 添加和移除wheel事件监听
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (canvas) {
+      canvas.addEventListener("wheel", handleWheel);
+      return () => canvas.removeEventListener("wheel", handleWheel);
+    }
+  }, [handleWheel]);
+
+  return <canvas ref={canvasRef} />;
 }

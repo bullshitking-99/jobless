@@ -29,6 +29,7 @@ function App() {
         dataSource={dataSource}
         rowHeight={40}
         visibleRows={20}
+        height={800}
       />
     </div>
   );
