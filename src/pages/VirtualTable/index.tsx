@@ -58,7 +58,7 @@ export default function VirtualTable({
       let x = 0;
       columns.forEach((col) => {
         // 绘制表头背景
-        ctx.fillStyle = "#f5f5f5";
+        ctx.fillStyle = "#e0e0e0";
         ctx.fillRect(x, 0, col.width, rowHeight);
         ctx.strokeRect(x, 0, col.width, rowHeight);
 
@@ -87,8 +87,8 @@ export default function VirtualTable({
 
         let cellX = 0;
         columns.forEach((col) => {
-          // 白色背景占位
-          ctx.fillStyle = "#fff";
+          // 根据行号设置背景色
+          ctx.fillStyle = (startRow + index) % 2 === 0 ? "#fff" : "#f9f9f9";
           ctx.fillRect(cellX, y, col.width, rowHeight);
           // 黑色边框
           ctx.fillStyle = "#666";
@@ -118,14 +118,29 @@ export default function VirtualTable({
   const handleWheel = useCallback(
     (e: WheelEvent) => {
       e.preventDefault();
-      const newScrollTop = Math.max(
+      const targetScrollTop = Math.max(
         0,
         Math.min(scrollTop + e.deltaY, totalHeight - rowHeight * visibleRows)
       );
-      setScrollTop(newScrollTop);
-      requestAnimationFrame(() => {
+
+      // 计算需要补充的帧数，这里假设每5像素一帧
+      const distance = Math.abs(targetScrollTop - scrollTop);
+      const frameCount = Math.max(1, Math.floor(distance / 5));
+      const step = (targetScrollTop - scrollTop) / frameCount;
+
+      let currentFrame = 0;
+      const animate = () => {
+        if (currentFrame >= frameCount) return;
+
+        currentFrame++;
+        const newScrollTop = scrollTop + step * currentFrame;
+        setScrollTop(newScrollTop);
         drawTable(canvasRef.current!.getContext("2d")!);
-      });
+
+        requestAnimationFrame(animate);
+      };
+
+      requestAnimationFrame(animate);
     },
     [scrollTop, totalHeight, rowHeight, visibleRows, drawTable]
   );
