@@ -74,18 +74,15 @@ function stepTwo(entry) {
 
 stepTwo("./testJs/index.js");
 
-// 拼接完整的代码字符串，使其可在浏览器运行
-// 为什么返回函数字符串，而不是直接运行完之后返回完整code
-// 因为最终要在浏览器环境中运行，浏览器不支持原生的 require ，需要这里的 require 定义，供 code 中去调用 require
+// 将 模块加载函数 和 模块代码 封装到一个立即执行函数中，供浏览器执行
+// 1. 为什么不是返回拼接的全部代码：需要支持作用域隔离、模块缓存、chunk分隔、tree shaking、动态导入等功能
 function step3(entry) {
   //要先把对象转换为字符串，不然在下面的模板字符串中会默认调取对象的toString方法，参数变成[Object object],显然不行
   const graph = JSON.stringify(stepTwo(entry));
 
-  // 外部定义的 require ，会在 code 内部执行
-  // 如 index.js code : var message = require("./message.js").default;
-  // require("./message.js") : graph[module].code : exports.default = 'Hello World'; : return export
-  // index.js : var message = "Hello World"
-  // 未来的 lmh 还是不懂就去问ai
+  // 外部定义的 require, 即webpack的模块运行函数 ，交给浏览器来执行，只需要控制给他的依赖图谱就能实现模块动态加载
+  // 该函数内部有模块的缓存机制，执行完模块的代码之后，返回 export 对象给调用方
+  // 就这样递归得，把整个依赖图谱中的模块执行完
   return `
         (function(graph) {
             //require函数的本质是执行一个模块的代码，然后将相应变量挂载到exports对象上
