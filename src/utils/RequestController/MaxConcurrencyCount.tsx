@@ -28,12 +28,13 @@ const MaxConcurrencyCount = () => {
     const run = async () => {
       const task = requestArray.current.shift();
       if (task) {
+        cur++;
         if (cur < 5) {
           task();
         } else {
           await task();
+          cur--;
         }
-        cur++;
         run();
       }
     };
